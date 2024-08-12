@@ -47,12 +47,6 @@ func (m *Manager) Analyze() {
 	for _, mask := range m.masks {
 		m.lenMap[mask.Len()] = append(m.lenMap[mask.Len()], *mask)
 	}
-
-	for l, masks := range m.lenMap {
-		if l > 0 {
-			m.writeMasksToFile(l, masks)
-		}
-	}
 }
 
 func (m *Manager) PrintMasks() {
@@ -142,6 +136,33 @@ func (m *Manager) WriteTopMasksToFile(top int, directory string) {
 	}
 }
 
+func (m *Manager) WriteTopMasksToFileByLength(length, top int, directory string) {
+	masks := m.lenMap[length]
+
+	filename := fmt.Sprintf("%d-char-top-%d-masks", length, top)
+	filename = path.Join(directory, filename)
+	file, err := os.Create(filename)
+	if err != nil {
+		println("Error: Cannot create mask file")
+		os.Exit(1)
+	}
+
+	defer file.Close()
+
+	// Sort masks by hits in descending order
+	sort.Slice(masks, func(i, j int) bool {
+		return masks[i].hits > masks[j].hits
+	})
+
+	for i, mask := range masks {
+		if i == top {
+			break
+		}
+		line := fmt.Sprintf("%s\n", mask.String())
+		file.WriteString(line)
+	}
+}
+
 func (m *Manager) GetTopMasks(top int) []string {
 	out := make([]string, 0, top)
 
@@ -182,4 +203,23 @@ func (m *Manager) printTop25Masks() {
 		}
 		fmt.Printf("%d) %s - %d\n", i+1, mask.String(), mask.hits)
 	}
+}
+
+func (m *Manager) GetTopMasksByLength(length, top int) []string {
+	out := make([]string, 0, top)
+
+	masks := m.lenMap[length]
+
+	// Sort masks by hits in descending order
+	sort.Slice(masks, func(i, j int) bool {
+		return masks[i].hits > masks[j].hits
+	})
+
+	for i, mask := range masks {
+		if i == top {
+			break
+		}
+		out = append(out, mask.String())
+	}
+	return out
 }

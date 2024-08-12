@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"github.com/Ar1ste1a/Potfile/internal/password"
 	"github.com/Ar1ste1a/Potfile/internal/util"
 	"os"
@@ -11,10 +12,10 @@ import (
 var location = ".local/share/hashcat/hashcat.potfile"
 
 func init() {
-	// Initialize the Potfile location
-	home := os.Getenv("~")
+	home := os.Getenv("HOME")
 	if home == "" {
-		home = os.Getenv("HOME")
+		fmt.Printf("Error: \"HOME\" environment variable not set\n")
+		os.Exit(1)
 	}
 	location = path.Join(home, location)
 }

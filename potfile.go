@@ -56,6 +56,29 @@ func GetTopMasks(top int) []string {
 	return masks
 }
 
+func GetTopMasksByLength(length, top int) []string {
+	var masks []string
+
+	passwords := potfile.Passwords()
+	manager := mask.NewManager()
+	for _, password := range passwords {
+		manager.Add(password)
+	}
+	manager.Analyze()
+	masks = manager.GetTopMasksByLength(length, top)
+	return masks
+}
+
+func WriteTopMasksByLengthToFile(length, top int, directory string) {
+	passwords := potfile.Passwords()
+	manager := mask.NewManager()
+	for _, password := range passwords {
+		manager.Add(password)
+	}
+	manager.Analyze()
+	manager.WriteTopMasksToFileByLength(length, top, directory)
+}
+
 func WriteTopMasksToFile(top int, directory string) {
 	passwords := potfile.Passwords()
 	manager := mask.NewManager()
