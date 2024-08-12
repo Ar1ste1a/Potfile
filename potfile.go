@@ -3,6 +3,7 @@ package GolandProjects
 import (
 	potfile "github.com/Ar1ste1a/Potfile/internal"
 	"github.com/Ar1ste1a/Potfile/internal/mask"
+	"strconv"
 )
 
 func GetRawString() string {
@@ -69,6 +70,17 @@ func GetTopMasksByLength(length, top int) []string {
 	return masks
 }
 
+func GetRangeOfTopMasksByLength(start, end, top int) map[string][]string {
+	var masks map[string][]string
+
+	for i := start; i <= end; i++ {
+		newMasks := GetTopMasksByLength(i, top)
+		masks[strconv.Itoa(i)] = newMasks
+	}
+
+	return masks
+}
+
 func WriteTopMasksByLengthToFile(length, top int, directory string) {
 	passwords := potfile.Passwords()
 	manager := mask.NewManager()
@@ -77,6 +89,12 @@ func WriteTopMasksByLengthToFile(length, top int, directory string) {
 	}
 	manager.Analyze()
 	manager.WriteTopMasksToFileByLength(length, top, directory)
+}
+
+func WriteRangeOfTopMasksByLengthToFile(start, end, top int, directory string) {
+	for i := start; i <= end; i++ {
+		WriteTopMasksByLengthToFile(i, top, directory)
+	}
 }
 
 func WriteTopMasksToFile(top int, directory string) {
