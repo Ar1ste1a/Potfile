@@ -1,8 +1,8 @@
 package GolandProjects
 
 import (
-	potfile "Potfile/internal"
-	"Potfile/internal/mask"
+	potfile "github.com/Ar1ste1a/Potfile/internal"
+	"github.com/Ar1ste1a/Potfile/internal/mask"
 )
 
 func GetRawString() string {
