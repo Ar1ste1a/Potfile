@@ -27,7 +27,7 @@ func RawBytes() []byte {
 	return util.ReadFileBytes(location)
 }
 
-func ParsedMap() []map[string]string {
+func Map() []map[string]string {
 	fullContent := util.ReadFileString(location)
 	lines := strings.Split(fullContent, "\n")
 
@@ -56,6 +56,20 @@ func Passwords() []string {
 				pw = password.HexToPassword(pw)
 			}
 			cleanedLines = append(cleanedLines, pw)
+		}
+	}
+	return cleanedLines
+}
+
+func Hashes() []string {
+	fullContent := util.ReadFileString(location)
+	lines := strings.Split(fullContent, "\n")
+
+	var cleanedLines []string
+	for _, line := range lines {
+		if line != "" {
+			hash, _ := password.SplitPassword(line)
+			cleanedLines = append(cleanedLines, hash)
 		}
 	}
 	return cleanedLines

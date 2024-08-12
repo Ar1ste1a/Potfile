@@ -14,11 +14,15 @@ func GetRawBytes() []byte {
 }
 
 func GetParsedMap() []map[string]string {
-	return potfile.ParsedMap()
+	return potfile.Map()
 }
 
 func GetPasswords() []string {
 	return potfile.Passwords()
+}
+
+func GetHashes() []string {
+	return potfile.Hashes()
 }
 
 func GetLocation() string {
