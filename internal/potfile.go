@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"Potfile/internal/password"
-	"Potfile/internal/util"
+	"github.com/Ar1ste1a/Potfile/internal/password"
+	"github.com/Ar1ste1a/Potfile/internal/util"
 	"os"
 	"path"
 	"strings"
