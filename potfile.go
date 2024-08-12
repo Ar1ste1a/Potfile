@@ -61,3 +61,7 @@ func WriteTopMasksToFile(top int, directory string) {
 	manager.Analyze()
 	manager.WriteTopMasksToFile(top, directory)
 }
+
+func SetPotfileLocation(location string) {
+	potfile.SetLocation(location)
+}

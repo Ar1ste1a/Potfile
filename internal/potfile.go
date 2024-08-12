@@ -65,6 +65,10 @@ func Location() string {
 	return location
 }
 
+func SetLocation(newLocation string) {
+	location = newLocation
+}
+
 func Count() int {
 	fullContent := util.ReadFileString(location)
 	lines := strings.Split(fullContent, "\n")
